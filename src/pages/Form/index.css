@@ -1,0 +1,5 @@
+.input-file input[type="file" i]::-webkit-file-upload-button {
+    padding: 10px;
+    border-radius: 5px;
+    border: none
+}
