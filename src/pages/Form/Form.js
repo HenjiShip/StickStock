@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Card, Grid, TextField, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./index.css";
 import uploadImage from "../../images/uploadImage.jpg";
 import { createPost } from "../../actions/posts";

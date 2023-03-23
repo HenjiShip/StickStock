@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import noProfile from "../../images/noProfile.jpg";
 import decode from "jwt-decode";
-import { createUser } from "../../actions/user";
+import { createUser, fetchUserId } from "../../actions/user";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -36,6 +36,9 @@ const Navbar = () => {
   useEffect(() => {
     if (user?.result) {
       dispatch(createUser(user?.result));
+    }
+    if (user?.token) {
+      dispatch(fetchUserId());
     }
   }, [dispatch, user]);
 

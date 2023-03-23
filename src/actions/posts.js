@@ -21,7 +21,6 @@ export const getPosts = (page) => async (dispatch) => {
 export const createPost = (post, navigate) => async (dispatch) => {
   try {
     const { data } = await api.createPost(post);
-
     dispatch({ type: CREATE, payload: data });
     navigate("/");
   } catch (error) {
@@ -60,6 +59,14 @@ export const getUserPosts = (id) => async (dispatch) => {
   try {
     const { data } = await api.getUserPosts(id);
     dispatch({ type: GET_USER_UPLOADS, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deletePost = (id) => async (dispatch) => {
+  try {
+    const { data } = await api.deletePost(id);
   } catch (error) {
     console.log(error);
   }

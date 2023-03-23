@@ -12,19 +12,20 @@ const User = () => {
   const dispatch = useDispatch();
   const { liked, uploads } = useSelector((state) => state.posts);
   const { userInfo } = useSelector((state) => state.auth);
-  const { userId } = useParams();
+  const { creator } = useParams();
 
   useEffect(() => {
-    dispatch(getLikedPosts(userId));
-    dispatch(fetchUser(userId));
-    dispatch(getUserPosts(userId));
-  }, [userId]);
+    dispatch(getLikedPosts(creator));
+    dispatch(getUserPosts(creator));
+    dispatch(fetchUser(creator));
+  }, [creator]);
 
   return (
     <Container maxWidth="lg">
       <Typography>{userInfo?.name}</Typography>
+      <img src={userInfo?.userImage} />
 
-      {liked?.posts !== undefined ? (
+      {liked?.posts != null ? (
         <Grid container spacing={3} justifyContent="center">
           {liked.posts.map((post) => (
             <Grid item key={post._id}>

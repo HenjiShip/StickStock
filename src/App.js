@@ -23,7 +23,7 @@ const App = () => {
             <Route path="/upload" exact element={<Form />} />
             <Route path="/auth" exact element={<Auth />} />
             <Route path="/post/:id" exact element={<SinglePost />} />
-            <Route path="/user/:userId" exact element={<User />} />
+            <Route path="/user/:creator" exact element={<User />} />
           </Routes>
         </Container>
       </GoogleOAuthProvider>
