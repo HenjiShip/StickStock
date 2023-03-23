@@ -28,7 +28,7 @@ const Post = ({ post }) => {
     navigate(`/post/${post._id}`);
   };
   const handleUser = () => {
-    navigate(`/user/${post.creator}`);
+    navigate(`/user/${post.creator._id}`);
   };
 
   const handleLike = async () => {

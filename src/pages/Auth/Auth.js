@@ -25,7 +25,7 @@ const Auth = () => {
   };
   return (
     <Container maxWidth="sm">
-      <GoogleLogin onSuccess={googleSuccess} onFailur={googleFailure} />
+      <GoogleLogin onSuccess={googleSuccess} onFailure={googleFailure} />
     </Container>
   );
 };

@@ -124,7 +124,7 @@ const SideBar = () => {
         ))}
         <Divider />
         <Typography variant="subtitle1" sx={{ color: "gray", padding: "20px" }}>
-          © 2023 TikTok
+          © 2023 StickStock
         </Typography>
       </Box>
 
