@@ -25,8 +25,6 @@ const SinglePost = () => {
   const user = JSON.parse(localStorage.getItem("profile"));
   const userId = JSON.parse(localStorage.getItem("profileId"));
 
-  console.log(post);
-
   useEffect(() => {
     dispatch(getSinglePost(id));
   }, [dispatch, id]);
@@ -45,7 +43,7 @@ const SinglePost = () => {
                 <CardMedia
                   component="img"
                   height="50"
-                  image={noProfile}
+                  image={post?.creatorFiller?.userImage}
                   alt="profile picture"
                   sx={{ borderRadius: "30px" }}
                 />
@@ -87,7 +85,7 @@ const SinglePost = () => {
               </IconButton>
               {post?.likes && <span>{post?.likes.length}</span>}
 
-              {userId === post.creator._id ? (
+              {userId === post?.creator ? (
                 <ButtonBase onClick={() => dispatch(deletePost(post._id))}>
                   Delete
                 </ButtonBase>

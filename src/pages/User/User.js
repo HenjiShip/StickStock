@@ -20,6 +20,8 @@ const User = () => {
     dispatch(fetchUser(creator));
   }, [creator]);
 
+  console.log(liked);
+
   return (
     <Container maxWidth="lg">
       <Typography>{userInfo?.name}</Typography>

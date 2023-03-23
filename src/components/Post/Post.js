@@ -28,12 +28,14 @@ const Post = ({ post }) => {
     navigate(`/post/${post._id}`);
   };
   const handleUser = () => {
-    navigate(`/user/${post.creator._id}`);
+    navigate(`/user/${post.creator}`);
   };
 
   const handleLike = async () => {
     dispatch(likePost(post._id));
   };
+
+  console.log(post);
 
   return (
     <Box sx={{ maxWidth: "600px" }}>
@@ -44,7 +46,7 @@ const Post = ({ post }) => {
             onClick={handleUser}
           >
             <img
-              src={noProfile}
+              src={post?.creatorFiller?.userImage || noProfile}
               style={{ width: "80%", borderRadius: "50px" }}
             />
           </ButtonBase>
