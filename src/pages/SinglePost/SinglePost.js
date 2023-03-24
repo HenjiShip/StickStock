@@ -13,12 +13,15 @@ import {
   Typography,
   CircularProgress,
 } from "@mui/material";
-import noProfile from "../../images/noProfile.jpg";
+import { useNavigate } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import moment from "moment";
 import { likePost, deletePost } from "../../actions/posts";
 
 const SinglePost = () => {
+  let ifLiked;
+  const navigate = useNavigate();
   const { post } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -33,13 +36,21 @@ const SinglePost = () => {
     dispatch(likePost(post._id));
   };
 
+  if (post?.likes != null) {
+    ifLiked = post?.likes.includes(userId);
+  }
+
   return (
     <>
       {post != null ? (
         <Container maxWidth="lg">
           <CardHeader
             avatar={
-              <IconButton>
+              <IconButton
+                onClick={() => {
+                  navigate(`/user/${userId}`);
+                }}
+              >
                 <CardMedia
                   component="img"
                   height="50"
@@ -49,7 +60,18 @@ const SinglePost = () => {
                 />
               </IconButton>
             }
-            title={post?.name}
+            title={
+              <ButtonBase>
+                <Typography
+                  variant="h6"
+                  onClick={() => {
+                    navigate(`/user/${userId}`);
+                  }}
+                >
+                  {post?.name}
+                </Typography>
+              </ButtonBase>
+            }
             subheader={moment(post?.createdAt).fromNow()}
           />
           <Grid container>
@@ -81,13 +103,13 @@ const SinglePost = () => {
               alignItems="center"
             >
               <IconButton disabled={!user?.result} onClick={handleLike}>
-                <FavoriteIcon />
+                <FavoriteIcon style={{ color: ifLiked ? "#ff0077" : "gray" }} />
               </IconButton>
               {post?.likes && <span>{post?.likes.length}</span>}
 
               {userId === post?.creator ? (
                 <ButtonBase onClick={() => dispatch(deletePost(post._id))}>
-                  Delete
+                  <DeleteIcon style={{ color: "gray" }} />
                 </ButtonBase>
               ) : null}
             </Grid>
