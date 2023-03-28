@@ -9,3 +9,5 @@ export const GET_USER_UPLOADS = "GET_USER_UPLOADS";
 
 export const FETCH_USER = "FETCH_USER";
 export const USER_ID = "USER_ID";
+export const UPDATE = "UPDATE";
+export const SET_UPDATE_ID = "SET_UPDATE_ID";

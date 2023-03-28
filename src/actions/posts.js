@@ -7,11 +7,12 @@ import {
   LIKE,
   FETCH_LIKES,
   GET_USER_UPLOADS,
+  SET_UPDATE_ID,
 } from "../constants/actionTypes";
 
 export const getPosts = (page) => async (dispatch) => {
   try {
-    const { data } = await api.fetchPosts();
+    const { data } = await api.fetchPosts(page);
     dispatch({ type: FETCH_ALL, payload: data });
   } catch (error) {
     console.log(error);
@@ -64,9 +65,29 @@ export const getUserPosts = (id) => async (dispatch) => {
   }
 };
 
-export const deletePost = (id) => async (dispatch) => {
+export const deletePost = (id, navigate) => async (dispatch) => {
   try {
-    const { data } = await api.deletePost(id);
+    await api.deletePost(id);
+    navigate("/");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const setUpdateId = (postToUpdate, navigate) => async (dispatch) => {
+  try {
+    dispatch({ type: SET_UPDATE_ID, payload: postToUpdate });
+    navigate("/upload");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updatePost = (id, postData) => async (dispatch) => {
+  try {
+    dispatch({ type: SET_UPDATE_ID, payload: null });
+    await api.updatePost(id, postData);
+    // i guess if i dont sent back a response, nothing after await runs?
   } catch (error) {
     console.log(error);
   }

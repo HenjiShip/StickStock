@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getSinglePost } from "../../actions/posts";
+import { getSinglePost, setUpdateId } from "../../actions/posts";
 import {
   Box,
   ButtonBase,
@@ -14,6 +14,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import UpdateIcon from "@mui/icons-material/Update";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import moment from "moment";
@@ -65,7 +66,7 @@ const SinglePost = () => {
                 <Typography
                   variant="h6"
                   onClick={() => {
-                    navigate(`/user/${userId}`);
+                    navigate(`/user/${post?.creator}`);
                   }}
                 >
                   {post?.name}
@@ -108,8 +109,17 @@ const SinglePost = () => {
               {post?.likes && <span>{post?.likes.length}</span>}
 
               {userId === post?.creator ? (
-                <ButtonBase onClick={() => dispatch(deletePost(post._id))}>
+                <ButtonBase
+                  onClick={() => dispatch(deletePost(post._id, navigate))}
+                >
                   <DeleteIcon style={{ color: "gray" }} />
+                </ButtonBase>
+              ) : null}
+              {userId === post?.creator ? (
+                <ButtonBase
+                  onClick={() => dispatch(setUpdateId(post, navigate))}
+                >
+                  <UpdateIcon style={{ color: "gray" }} />
                 </ButtonBase>
               ) : null}
             </Grid>

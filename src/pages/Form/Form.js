@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Card, Grid, TextField, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./index.css";
 import uploadImage from "../../images/uploadImage.jpg";
-import { createPost } from "../../actions/posts";
+import { createPost, updatePost } from "../../actions/posts";
 import { useNavigate } from "react-router-dom";
 
 const Form = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { postToUpdate } = useSelector((state) => state.posts);
   const user = JSON.parse(localStorage.getItem("profile"));
   const [postData, setPostData] = useState({
     title: "",
@@ -40,7 +41,36 @@ const Form = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPost({ ...postData, name: user?.result?.name }, navigate));
+    if (postToUpdate) {
+      dispatch(updatePost(postToUpdate._id, postData));
+      navigate("/");
+    } else {
+      dispatch(createPost({ ...postData, name: user?.result?.name }, navigate));
+    }
+    clear();
+  };
+
+  useEffect(() => {
+    if (postToUpdate) {
+      setPostData({
+        ...postData,
+        title: postToUpdate?.title,
+        message: postToUpdate?.message,
+        tags: postToUpdate?.tags.join(", "),
+        selectedFile: postToUpdate?.selectedFile,
+        likes: postToUpdate?.likes,
+        creator: postToUpdate?.creator,
+      });
+    }
+  }, [postToUpdate]);
+
+  const clear = () => {
+    setPostData({
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
   };
 
   return (
@@ -48,17 +78,27 @@ const Form = () => {
       <Card sx={{ padding: "20px" }}>
         <Grid container>
           <Grid item xs={4}>
-            <Typography variant="h6"> Upload Post </Typography>
+            <Typography variant="h6">
+              {postToUpdate ? "Edit" : "Upload"} Post
+            </Typography>
 
             <Typography variant="subtitle1" sx={{ color: "gray" }}>
               Post a photo to your account
             </Typography>
-            {imagePreview && (
+            {postToUpdate?.selectedFile ? (
               <img
-                src={imagePreview}
+                src={postToUpdate?.selectedFile}
                 alt="upload preview"
                 style={{ maxWidth: "90%" }}
               />
+            ) : (
+              imagePreview && (
+                <img
+                  src={imagePreview}
+                  alt="upload preview"
+                  style={{ maxWidth: "90%" }}
+                />
+              )
             )}
           </Grid>
           <Grid item xs={8} sx={{ paddingTop: "40px" }}>
@@ -104,10 +144,12 @@ const Form = () => {
                 }
                 sx={{ marginBottom: "20px" }}
               />
+              {postToUpdate ? null : (
+                <div className="input-file" style={{ marginBottom: "20px" }}>
+                  <input type="file" onChange={handleFileInputChange} />
+                </div>
+              )}
 
-              <div className="input-file" style={{ marginBottom: "20px" }}>
-                <input type="file" onChange={handleFileInputChange} />
-              </div>
               <Button
                 variant="contained"
                 size="large"
