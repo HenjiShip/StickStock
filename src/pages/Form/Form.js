@@ -51,6 +51,9 @@ const Form = () => {
   };
 
   useEffect(() => {
+    if (!user) {
+      navigate("/auth");
+    }
     if (postToUpdate) {
       setPostData({
         ...postData,
