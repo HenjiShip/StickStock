@@ -21,19 +21,18 @@ const borderRad = {
 };
 
 const Post = ({ post }) => {
+  let ifLiked;
   const user = JSON.parse(localStorage.getItem("profile"));
+  const userId = JSON.parse(localStorage.getItem("profileId"));
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleNavigate = () => {
-    navigate(`/post/${post._id}`);
-  };
   const handleUser = () => {
-    navigate(`/user/${post.creator._id}`);
+    navigate(`/user/${post.creator}`);
   };
 
-  const handleLike = async () => {
-    dispatch(likePost(post._id));
-  };
+  if (post?.likes != null) {
+    ifLiked = post?.likes.includes(userId);
+  }
 
   return (
     <Box sx={{ maxWidth: "600px" }}>
@@ -44,7 +43,7 @@ const Post = ({ post }) => {
             onClick={handleUser}
           >
             <img
-              src={noProfile}
+              src={post?.creatorFiller?.userImage || noProfile}
               style={{ width: "80%", borderRadius: "50px" }}
             />
           </ButtonBase>
@@ -56,7 +55,12 @@ const Post = ({ post }) => {
                 {post.name}
               </Typography>
             </ButtonBase>
-            <ButtonBase sx={borderRad} onClick={handleNavigate}>
+            <ButtonBase
+              sx={borderRad}
+              onClick={() => {
+                navigate(`/post/${post._id}`);
+              }}
+            >
               <Typography variant="h6">{post.title}</Typography>
             </ButtonBase>
           </Grid>
@@ -78,7 +82,12 @@ const Post = ({ post }) => {
               minHeight: "300px",
             }}
           >
-            <ButtonBase sx={borderRad} onClick={handleNavigate}>
+            <ButtonBase
+              sx={borderRad}
+              onClick={() => {
+                navigate(`/post/${post._id}`);
+              }}
+            >
               <img
                 src={
                   post.selectedFile ||
@@ -99,8 +108,13 @@ const Post = ({ post }) => {
           justifyContent="flex-end"
           alignItems="center"
         >
-          <IconButton onClick={handleLike} disabled={!user?.result}>
-            <FavoriteIcon />
+          <IconButton
+            onClick={() => {
+              dispatch(likePost(post._id));
+            }}
+            disabled={!user?.result}
+          >
+            <FavoriteIcon style={{ color: ifLiked ? "#ff0077" : "gray" }} />
           </IconButton>
           <span>{post.likes.length}</span>
           <IconButton>

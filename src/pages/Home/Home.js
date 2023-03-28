@@ -5,14 +5,11 @@ import { getPosts } from "../../actions/posts";
 import { Box, Grid } from "@mui/material";
 import SideBar from "../../components/SideBar/SideBar";
 import Post from "../../components/Post/Post";
-
+import Paginate from "../../components/Paginate";
 
 const Home = () => {
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.posts);
-  useEffect(() => {
-    dispatch(getPosts());
-  }, []);
 
   return (
     <Grid container spacing={2}>
@@ -34,7 +31,9 @@ const Home = () => {
         <Box
           sx={{
             overflowY: "scroll",
-            height: "calc(96vh - 64px)",
+            paddingTop: "3vh",
+            paddingLeft: "3vh",
+            height: "calc(96.8vh - 64px)",
             "&::-webkit-scrollbar": { width: "6px" },
             "&::-webkit-scrollbar-track": { background: "none" },
             "&::-webkit-scrollbar-thumb": { background: "#e3e3e3" },
@@ -45,6 +44,7 @@ const Home = () => {
               <Post post={post} />{" "}
             </Grid>
           ))}
+          <Paginate />
         </Box>
       </Grid>
     </Grid>

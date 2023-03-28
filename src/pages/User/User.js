@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getLikedPosts, getUserPosts } from "../../actions/posts";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, CircularProgress } from "@mui/material";
 import LikedPost from "./LikedPost/LikedPost";
 import UserPosts from "./UserPosts/UserPosts";
 import { Container } from "@mui/system";
@@ -34,7 +34,7 @@ const User = () => {
           ))}
         </Grid>
       ) : (
-        <Typography>...Loading </Typography>
+        <Typography><CircularProgress /></Typography>
       )}
       {uploads.map((upload) => (
         <UserPosts key={upload._id} upload={upload}></UserPosts>

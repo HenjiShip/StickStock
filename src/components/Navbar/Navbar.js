@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Button, AppBar, Typography, Toolbar, TextField } from "@mui/material";
+import {
+  Button,
+  AppBar,
+  Typography,
+  Toolbar,
+  TextField,
+  Menu,
+  MenuItem,
+  ButtonBase,
+  Grid,
+} from "@mui/material";
 import Stick from "../../images/Stick.png";
 import "./index.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,7 +24,19 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
+  const userId = JSON.parse(localStorage.getItem("profileId"));
+
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+
+  // menu code
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const logout = () => {
     dispatch({ type: "LOGOUT" });
@@ -71,55 +93,101 @@ const Navbar = () => {
           >
             <Link to="/">StickStock</Link>
           </Typography>
-          <TextField
-            name="search"
-            placeholder="Search"
-            variant="outlined"
-            sx={{ marginLeft: "15px", display: { xs: "none", sm: "block" } }}
-            size="small"
-          />
+          <Grid container justifyContent="center">
+            <TextField
+              name="search"
+              placeholder="Search"
+              variant="outlined"
+              sx={{ marginLeft: "15px", display: { xs: "none", sm: "block" } }}
+              size="small"
+            />
+          </Grid>
           {user ? (
             <Button
               sx={{
                 fontSize: { xs: "10px", md: "14px" },
                 marginLeft: "auto",
-                backgroundColor: "black",
-                color: "white",
+                width: "150px",
+                backgroundColor: "white",
+                color: "black",
+                border: "1px solid #d9d9d9",
+                borderRadius: "0",
                 "&:hover": {
-                  backgroundColor: "gray",
-                  color: "white",
+                  backgroundColor: "#dedede",
                 },
               }}
-              className="Button"
               onClick={() => navigate("/upload")}
             >
-              <Link to="/upload">Upload</Link>
+              <Link to="/upload">+ Upload</Link>
             </Button>
           ) : null}
 
           {user ? (
-            <Button
-              sx={{
-                fontSize: { xs: "10px", md: "14px" },
-                marginLeft: "10px",
-                backgroundColor: "black",
-                color: "white",
-                "&:hover": {
-                  backgroundColor: "gray",
-                  color: "white",
-                },
-              }}
-              onClick={logout}
-            >
-              <img
-                src={user?.result?.picture || noProfile}
-                alt={user?.result?.name}
-                referrerPolicy="no-referrer"
-                style={{ height: "20px", borderRadius: "20px" }}
-              />
-              Log Out
-            </Button>
+            <div>
+              <ButtonBase
+                id="basic-button"
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClick}
+                sx={{ marginLeft: "50px" }}
+              >
+                <img
+                  src={user?.result?.picture || noProfile}
+                  alt={user?.result?.name}
+                  referrerPolicy="no-referrer"
+                  style={{ height: "40px", borderRadius: "20px" }}
+                />
+              </ButtonBase>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    navigate(`/user/${userId}`);
+                  }}
+                >
+                  Profile
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    logout();
+                  }}
+                >
+                  Logout
+                </MenuItem>
+              </Menu>
+            </div>
           ) : (
+            // <Button
+            //   sx={{
+            //     fontSize: { xs: "10px", md: "14px" },
+            //     marginLeft: "10px",
+            //     backgroundColor: "black",
+            //     color: "white",
+            //     "&:hover": {
+            //       backgroundColor: "gray",
+            //       color: "white",
+            //     },
+            //   }}
+            //   onClick={logout}
+            // >
+            //   <img
+            //     src={user?.result?.picture || noProfile}
+            //     alt={user?.result?.name}
+            //     referrerPolicy="no-referrer"
+            //     style={{ height: "20px", borderRadius: "20px" }}
+            //   />
+            //   Log Out
+            // </Button>
             <Button
               sx={{
                 marginLeft: "auto",

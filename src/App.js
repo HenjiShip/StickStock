@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Container } from "@mui/material";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
@@ -19,7 +19,8 @@ const App = () => {
         <Container maxWidth="lg" sx={{ margin: "auto", padding: { xs: 0 } }}>
           <Navbar />
           <Routes>
-            <Route path="/" exact element={<Home />} />
+            <Route path="/" exact element={<Navigate to="/posts" />} />
+            <Route path="/posts" exact element={<Home />} />
             <Route path="/upload" exact element={<Form />} />
             <Route path="/auth" exact element={<Auth />} />
             <Route path="/post/:id" exact element={<SinglePost />} />
