@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "../../actions/posts";
 import { Box, Grid, Typography, CircularProgress } from "@mui/material";
@@ -10,7 +9,15 @@ import Paginate from "../../components/Paginate";
 const Home = () => {
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.posts);
-  console.log(posts);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (posts.length > 0) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [posts]);
 
   return (
     <Grid container spacing={2}>
@@ -40,7 +47,11 @@ const Home = () => {
             "&::-webkit-scrollbar-thumb": { background: "#e3e3e3" },
           }}
         >
-          {posts ? (
+          {loading ? (
+            <Typography>
+              <CircularProgress />
+            </Typography>
+          ) : (
             <div>
               {posts.map((post) => (
                 <Grid key={post._id}>
@@ -49,10 +60,6 @@ const Home = () => {
               ))}
               <Paginate />
             </div>
-          ) : (
-            <Typography>
-              <CircularProgress />
-            </Typography>
           )}
         </Box>
       </Grid>
