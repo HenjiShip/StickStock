@@ -9,7 +9,7 @@ import {
 } from "../constants/actionTypes";
 
 export default (
-  state = { posts: [], post: [], uploads: [], postToUpdate: null },
+  state = { posts: [], post: [], uploads: [], postToUpdate: null},
   action
 ) => {
   switch (action.type) {

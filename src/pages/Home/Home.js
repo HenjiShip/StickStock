@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "../../actions/posts";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography, CircularProgress } from "@mui/material";
 import SideBar from "../../components/SideBar/SideBar";
 import Post from "../../components/Post/Post";
 import Paginate from "../../components/Paginate";
@@ -10,6 +10,7 @@ import Paginate from "../../components/Paginate";
 const Home = () => {
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.posts);
+  console.log(posts);
 
   return (
     <Grid container spacing={2}>
@@ -39,12 +40,20 @@ const Home = () => {
             "&::-webkit-scrollbar-thumb": { background: "#e3e3e3" },
           }}
         >
-          {posts.map((post) => (
-            <Grid key={post._id}>
-              <Post post={post} />{" "}
-            </Grid>
-          ))}
-          <Paginate />
+          {posts ? (
+            <div>
+              {posts.map((post) => (
+                <Grid key={post._id}>
+                  <Post post={post} />
+                </Grid>
+              ))}
+              <Paginate />
+            </div>
+          ) : (
+            <Typography>
+              <CircularProgress />
+            </Typography>
+          )}
         </Box>
       </Grid>
     </Grid>
