@@ -49,6 +49,8 @@ const Home = () => {
         >
           {loading ? (
             <Typography>
+              This application runs on free tier render servers. Please wait a
+              moment for cold start. <br />
               <CircularProgress />
             </Typography>
           ) : (
