@@ -10,8 +10,7 @@ const LikedPost = ({ post }) => {
 
   return (
     <ButtonBase onClick={handleNavigate}>
-      
-      <Grid item sx={{ textAlign: "left" }}>
+      <Grid>
         <div style={{ height: "300px", width: "200px" }}>
           <img
             style={{ width: "100%", height: "100%", borderRadius: "20px" }}

@@ -26,7 +26,7 @@ const User = () => {
       <img src={userInfo?.userImage} />
       <Typography variant="h5">{userInfo?.name}'s Liked Posts</Typography>
       {liked?.posts != null ? (
-        <Grid container spacing={3} justifyContent="center">
+        <Grid container spacing={3}>
           {liked.posts.map((post) => (
             <Grid item key={post._id}>
               <LikedPost post={post}></LikedPost>
@@ -39,9 +39,13 @@ const User = () => {
         </Typography>
       )}
       <Typography variant="h5">{userInfo?.name}'s Uploaded Posts</Typography>
-      {uploads.map((upload) => (
-        <UserPosts key={upload._id} upload={upload}></UserPosts>
-      ))}
+      <Grid container spacing={3}>
+        {uploads.map((upload) => (
+          <Grid item key={upload.id}>
+            <UserPosts key={upload._id} upload={upload}></UserPosts>
+          </Grid>
+        ))}
+      </Grid>
     </Container>
   );
 };
